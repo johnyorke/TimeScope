@@ -11,6 +11,8 @@
 
 @interface CarouselDataSource : NSObject <iCarouselDataSource>
 
+@property (nonatomic, copy) NSArray *dataArray;
+
 - (id)initWithViewController:(UIViewController *)vc andCarousel:(iCarousel *)carousel;
 
 @end

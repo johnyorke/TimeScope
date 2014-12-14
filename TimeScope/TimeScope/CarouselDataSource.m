@@ -8,11 +8,12 @@
 
 #import "CarouselDataSource.h"
 
+static const NSInteger kDataCount = 100;
+
 @interface CarouselDataSource ()
 
 @property (nonatomic, strong) UIViewController *viewController;
 @property (nonatomic, strong) iCarousel *carousel;
-@property (nonatomic, copy) NSArray *views;
 
 @end
 
@@ -25,23 +26,48 @@
     if (self) {
         self.viewController = vc;
         self.carousel = carousel;
+        [self createDataArray];
     }
     
     return self;
 }
 
+- (void)createDataArray
+{
+    NSMutableArray *mutableArray = [NSMutableArray new];
+            
+    for (int x = 0; x < kDataCount; x++) {
+        NSDate *date = [NSDate date];
+        
+        NSCalendar *cal = [NSCalendar currentCalendar];
+        NSDateComponents *components = [cal components:NSCalendarUnitDay fromDate:date];
+        
+        [components setDay:-x];
+        
+        NSDate *dateToUse = [cal dateByAddingComponents:components toDate:date options:0];
+        
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        dateFormat.dateStyle = NSDateFormatterLongStyle;
+        NSString *dateString = [dateFormat stringFromDate:dateToUse];
+        [mutableArray addObject:dateString];
+    }
+    
+    self.dataArray = [[NSArray alloc] initWithArray:mutableArray];
+}
+
 - (NSInteger)numberOfItemsInCarousel:(iCarousel *)carousel
 {
-    return 100;
+    return [self.dataArray count];
 }
 
 - (UIView *)carousel:( iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view
 {
     if (view == nil){
-        view = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
-        ((UIImageView *)view).image = [UIImage imageNamed:@"TimeRing"];
-        view.contentMode = UIViewContentModeCenter;
+        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
         view.backgroundColor = [UIColor clearColor];
+        view.layer.cornerRadius = view.frame.size.width/2;
+        view.layer.borderColor = [UIColor colorWithRed:0.84 green:0.15 blue:0.96 alpha:1.0].CGColor;
+        view.layer.borderWidth = 1.0f;
     }
     
     return view;

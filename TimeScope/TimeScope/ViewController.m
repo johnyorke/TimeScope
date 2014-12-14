@@ -27,14 +27,14 @@
     self.dataSource = [[CarouselDataSource alloc] initWithViewController:self andCarousel:self.carousel];;
     self.carousel.delegate = self;
     self.carousel.dataSource = self.dataSource;
-    self.carousel.type = iCarouselTypeCustom;
+    self.carousel.type = iCarouselTypeTimeMachine;
     [self.carousel setVertical:YES];
     
     self.meterRing.layer.cornerRadius = self.meterRing.frame.size.width / 2;
     self.meterRing.layer.borderColor = [UIColor whiteColor].CGColor;
     self.meterRing.layer.borderWidth = 2;
     
-    self.meterLabel.text = [NSString stringWithFormat:@"%d",self.carousel.currentItemIndex];
+    //self.meterLabel.text = [NSString stringWithFormat:@"%d",self.carousel.currentItemIndex];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -46,13 +46,13 @@
 {
     switch (option) {
         case iCarouselOptionWrap:
-            return YES;
+            return NO;
             break;
         case iCarouselOptionTilt:
             return 0;
             break;
         case iCarouselOptionVisibleItems:
-            return 20;
+            return 40;
         default:
             break;
     }
@@ -62,17 +62,19 @@
 
 - (void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel
 {
-    self.meterLabel.text = [NSString stringWithFormat:@"%d",carousel.currentItemIndex];
+    if ([self.dataSource.dataArray count] > 0){
+    self.meterLabel.text = [self.dataSource.dataArray objectAtIndex:carousel.currentItemIndex];
+    }
 }
 
-- (CATransform3D)carousel:(iCarousel *)carousel itemTransformForOffset:(CGFloat)offset baseTransform:(CATransform3D)transform
-{
-    CGFloat tilt = 0;
-    CGFloat spacing = 1.0;
-    
-    NSLog(@"offset = %f", offset);
-
-    return CATransform3DTranslate(transform, 0.0, offset * carousel.currentItemView.frame.size.width * tilt, offset * carousel.currentItemView.frame.size.width * spacing);
-}
+//- (CATransform3D)carousel:(iCarousel *)carousel itemTransformForOffset:(CGFloat)offset baseTransform:(CATransform3D)transform
+//{
+//    CGFloat tilt = 0;
+//    CGFloat spacing = 1;
+//    
+//    NSLog(@"offset = %f", offset);
+//
+//    return CATransform3DTranslate(transform, 0.0, offset * carousel.currentItemView.frame.size.width * tilt, offset * carousel.currentItemView.frame.size.width * spacing);
+//}
 
 @end
