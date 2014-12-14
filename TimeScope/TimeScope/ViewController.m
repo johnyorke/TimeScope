@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIView *meterRingHandle;
 @property (weak, nonatomic) IBOutlet UILabel *meterLabel;
 @property (strong, nonatomic) CarouselDataSource *dataSource;
+@property (weak, nonatomic) IBOutlet UISlider *slider;
 
 @end
 
@@ -33,6 +34,8 @@
     self.meterRing.layer.cornerRadius = self.meterRing.frame.size.width / 2;
     self.meterRing.layer.borderColor = [UIColor whiteColor].CGColor;
     self.meterRing.layer.borderWidth = 2;
+    
+    [self.slider addTarget:self action:@selector(sliderUpdated:) forControlEvents:UIControlEventAllEvents];
     
     //self.meterLabel.text = [NSString stringWithFormat:@"%d",self.carousel.currentItemIndex];
 }
@@ -60,11 +63,29 @@
     return value;
 }
 
+- (void)sliderUpdated:(UISlider *)slider
+{
+    [self.dataSource updateDataArrayUsingNumberOfDays:slider.value withReferenceDate:[self.dataSource.dataArray objectAtIndex:self.carousel.currentItemIndex]];
+    
+    [self.carousel reloadData];
+}
+
 - (void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel
 {
     if ([self.dataSource.dataArray count] > 0){
-    self.meterLabel.text = [self.dataSource.dataArray objectAtIndex:carousel.currentItemIndex];
+        NSDate *date = [self.dataSource.dataArray objectAtIndex:self.carousel.currentItemIndex];
+        self.meterLabel.text = [self stringFromDate:date];
     }
+}
+
+- (NSString *)stringFromDate:(NSDate *)date
+{
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    //dateFormat.dateStyle = NSDateFormatterLongStyle;
+    dateFormat.dateFormat = @"d MMMM yyyy, G";
+    NSString *dateString = [dateFormat stringFromDate:date];
+    
+    return dateString;
 }
 
 //- (CATransform3D)carousel:(iCarousel *)carousel itemTransformForOffset:(CGFloat)offset baseTransform:(CATransform3D)transform

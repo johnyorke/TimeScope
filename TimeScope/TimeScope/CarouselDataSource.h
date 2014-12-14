@@ -15,4 +15,6 @@
 
 - (id)initWithViewController:(UIViewController *)vc andCarousel:(iCarousel *)carousel;
 
+- (void)updateDataArrayUsingNumberOfDays:(NSInteger)days withReferenceDate:(NSDate *)date;
+
 @end

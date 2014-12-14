@@ -26,30 +26,29 @@ static const NSInteger kDataCount = 100;
     if (self) {
         self.viewController = vc;
         self.carousel = carousel;
-        [self createDataArray];
+        [self updateDataArrayUsingNumberOfDays:1 withReferenceDate:nil];
     }
     
     return self;
 }
 
-- (void)createDataArray
-{
+- (void)updateDataArrayUsingNumberOfDays:(NSInteger)days withReferenceDate:(NSDate *)date
+{    
     NSMutableArray *mutableArray = [NSMutableArray new];
             
     for (int x = 0; x < kDataCount; x++) {
-        NSDate *date = [NSDate date];
+        if (date == nil) {
+            date = [NSDate date];
+        }
         
         NSCalendar *cal = [NSCalendar currentCalendar];
         NSDateComponents *components = [cal components:NSCalendarUnitDay fromDate:date];
         
-        [components setDay:-x];
+        [components setDay:(-x*days)];
         
         NSDate *dateToUse = [cal dateByAddingComponents:components toDate:date options:0];
-        
-        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-        dateFormat.dateStyle = NSDateFormatterLongStyle;
-        NSString *dateString = [dateFormat stringFromDate:dateToUse];
-        [mutableArray addObject:dateString];
+
+        [mutableArray insertObject:dateToUse atIndex:[mutableArray count]];
     }
     
     self.dataArray = [[NSArray alloc] initWithArray:mutableArray];
