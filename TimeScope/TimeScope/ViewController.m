@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *meterLabel;
 @property (strong, nonatomic) CarouselDataSource *dataSource;
 @property (weak, nonatomic) IBOutlet UISlider *slider;
+@property (weak, nonatomic) IBOutlet UILabel *scaleLabel;
 
 @end
 
@@ -35,9 +36,9 @@
     self.meterRing.layer.borderColor = [UIColor whiteColor].CGColor;
     self.meterRing.layer.borderWidth = 2;
     
-    [self.slider addTarget:self action:@selector(sliderUpdated:) forControlEvents:UIControlEventAllEvents];
+    [self setScaleLabelTextWithSliderValue:self.slider.value];
     
-    //self.meterLabel.text = [NSString stringWithFormat:@"%d",self.carousel.currentItemIndex];
+    [self.slider addTarget:self action:@selector(sliderUpdated:) forControlEvents:UIControlEventAllEvents];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -65,9 +66,13 @@
 
 - (void)sliderUpdated:(UISlider *)slider
 {
-    [self.dataSource updateDataArrayUsingNumberOfDays:slider.value withReferenceDate:[self.dataSource.dataArray objectAtIndex:self.carousel.currentItemIndex]];
+    NSInteger sliderValue = slider.value;
+    
+    [self.dataSource updateDataArrayUsingNumberOfDays:sliderValue];
     
     [self.carousel reloadData];
+        
+    [self setScaleLabelTextWithSliderValue:slider.value];
 }
 
 - (void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel
@@ -86,6 +91,45 @@
     NSString *dateString = [dateFormat stringFromDate:date];
     
     return dateString;
+}
+
+- (void)setScaleLabelTextWithSliderValue:(CGFloat)value
+{
+    self.scaleLabel.alpha = 1;
+    NSInteger sliderValue = value;
+
+    NSString *labelUnitText= nil;
+    
+    if (sliderValue <= 7) {
+        if (sliderValue == 1) {
+            labelUnitText = @"Day";
+        } else labelUnitText = @"Days";
+        self.scaleLabel.text = [NSString stringWithFormat:@"%d %@",sliderValue,labelUnitText];
+    } else if (sliderValue > 7 && sliderValue <= 30) {
+        NSInteger weeks = sliderValue / 7;
+        if (weeks == 1) {
+            labelUnitText = @"Week";
+        } else labelUnitText = @"Weeks";
+        self.scaleLabel.text = [NSString stringWithFormat:@"%d %@",weeks,labelUnitText];
+    } else if (sliderValue > 30 && sliderValue <= 365) {
+        NSInteger months = sliderValue / 30;
+        if (months == 1) {
+            labelUnitText = @"Month";
+        } else labelUnitText = @"Months";
+        self.scaleLabel.text = [NSString stringWithFormat:@"%d %@",months,labelUnitText];
+    } else if (sliderValue > 365) {
+        NSInteger years = sliderValue / 365;
+        if (years == 1) {
+            labelUnitText = @"Year";
+        } else labelUnitText = @"Years";
+        self.scaleLabel.text = [NSString stringWithFormat:@"%d %@",years,labelUnitText];
+    }
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [UIView animateWithDuration:1 animations:^{
+            self.scaleLabel.alpha = 0;
+        }];
+    });
 }
 
 //- (CATransform3D)carousel:(iCarousel *)carousel itemTransformForOffset:(CGFloat)offset baseTransform:(CATransform3D)transform

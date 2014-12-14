@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B23" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -16,29 +17,57 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FuT-Vm-rqI">
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LcW-7G-lpA" userLabel="White Ring">
+                                <rect key="frame" x="40" y="164" width="240" height="240"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FuT-Vm-rqI" userLabel="White Ring Handle">
                                 <rect key="frame" x="159" y="106" width="2" height="58"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Timescope" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mO0-Bt-AFH">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A9p-ud-ino" customClass="iCarousel">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Scroll to go back in time..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mO0-Bt-AFH">
                                 <rect key="frame" x="8" y="68" width="304" height="38"/>
                                 <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="24"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LcW-7G-lpA">
-                                <rect key="frame" x="40" y="164" width="240" height="240"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A9p-ud-ino" customClass="iCarousel">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="365" translatesAutoresizingMaskIntoConstraints="NO" id="o17-Ua-m65">
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="1825" translatesAutoresizingMaskIntoConstraints="NO" id="o17-Ua-m65">
                                 <rect key="frame" x="6" y="520" width="308" height="31"/>
                             </slider>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qUO-QI-NHZ" userLabel="Scale Label">
+                                <rect key="frame" x="8" y="500" width="304" height="21"/>
+                                <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="16"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="A9p-ud-ino" secondAttribute="centerX" id="0yH-8f-QeA"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="mO0-Bt-AFH" secondAttribute="trailing" constant="-8" id="3i7-Aw-1fV"/>
+                            <constraint firstItem="A9p-ud-ino" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="-20" id="9aN-Ek-Aga"/>
+                            <constraint firstItem="LcW-7G-lpA" firstAttribute="top" secondItem="FuT-Vm-rqI" secondAttribute="bottom" id="9oh-bB-d24"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="qUO-QI-NHZ" secondAttribute="trailing" constant="-8" id="Bbk-gw-2lR"/>
+                            <constraint firstItem="FuT-Vm-rqI" firstAttribute="centerX" secondItem="mO0-Bt-AFH" secondAttribute="centerX" id="CAY-cD-uYi"/>
+                            <constraint firstAttribute="centerY" secondItem="A9p-ud-ino" secondAttribute="centerY" id="EC9-RH-Jtc"/>
+                            <constraint firstItem="FuT-Vm-rqI" firstAttribute="top" secondItem="mO0-Bt-AFH" secondAttribute="bottom" id="Gjg-Kf-jgN"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="o17-Ua-m65" secondAttribute="bottom" constant="18" id="MbD-dn-dG0"/>
+                            <constraint firstItem="FuT-Vm-rqI" firstAttribute="centerX" secondItem="LcW-7G-lpA" secondAttribute="centerX" id="Qdx-nE-ED5"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="A9p-ud-ino" secondAttribute="trailing" constant="-16" id="RBc-4p-hfm"/>
+                            <constraint firstItem="mO0-Bt-AFH" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-8" id="UQf-tW-HuL"/>
+                            <constraint firstItem="o17-Ua-m65" firstAttribute="top" secondItem="qUO-QI-NHZ" secondAttribute="bottom" constant="-1" id="XAi-1c-MPC"/>
+                            <constraint firstItem="A9p-ud-ino" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="Xrh-Nr-UA7"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="A9p-ud-ino" secondAttribute="bottom" id="fLd-lc-WAF"/>
+                            <constraint firstAttribute="centerY" secondItem="LcW-7G-lpA" secondAttribute="centerY" id="gtL-LF-Cbe"/>
+                            <constraint firstAttribute="centerX" secondItem="LcW-7G-lpA" secondAttribute="centerX" id="kM1-y4-5aW"/>
+                            <constraint firstItem="qUO-QI-NHZ" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-8" id="nda-TJ-Psf"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="o17-Ua-m65" secondAttribute="trailing" constant="-8" id="omy-AH-2hT"/>
+                            <constraint firstItem="o17-Ua-m65" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-8" id="xkf-1Y-Pat"/>
+                        </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
@@ -46,6 +75,7 @@
                         <outlet property="meterLabel" destination="mO0-Bt-AFH" id="Fdn-PH-eo9"/>
                         <outlet property="meterRing" destination="LcW-7G-lpA" id="R5X-vJ-K1j"/>
                         <outlet property="meterRingHandle" destination="FuT-Vm-rqI" id="Etn-T6-iXE"/>
+                        <outlet property="scaleLabel" destination="qUO-QI-NHZ" id="xp7-9m-uMb"/>
                         <outlet property="slider" destination="o17-Ua-m65" id="9EF-58-nN5"/>
                     </connections>
                 </viewController>
