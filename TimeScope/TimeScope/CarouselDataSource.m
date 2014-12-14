@@ -32,7 +32,7 @@
 
 - (NSInteger)numberOfItemsInCarousel:(iCarousel *)carousel
 {
-    return 8;
+    return 100;
 }
 
 - (UIView *)carousel:( iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view
