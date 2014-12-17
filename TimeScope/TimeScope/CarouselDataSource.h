@@ -15,6 +15,6 @@
 
 - (id)initWithViewController:(UIViewController *)vc andCarousel:(iCarousel *)carousel;
 
-- (void)updateDataArrayUsingNumberOfDays:(NSInteger)days;
+- (void)updateDataArrayUsingNumberOfDays:(NSInteger)days withDate:(NSDate *)date fromCurrentCarouselIndex:(NSInteger)carouselIndex;
 
 @end

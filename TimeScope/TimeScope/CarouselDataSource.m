@@ -8,7 +8,7 @@
 
 #import "CarouselDataSource.h"
 
-static const NSInteger kDataCount = 100;
+static const NSInteger kDataCount = 1000;
 
 @interface CarouselDataSource ()
 
@@ -26,25 +26,30 @@ static const NSInteger kDataCount = 100;
     if (self) {
         self.viewController = vc;
         self.carousel = carousel;
-        [self updateDataArrayUsingNumberOfDays:1];
+        [self updateDataArrayUsingNumberOfDays:1 withDate:[NSDate date] fromCurrentCarouselIndex:0];
     }
     
     return self;
 }
 
-- (void)updateDataArrayUsingNumberOfDays:(NSInteger)days
-{    
+- (void)updateDataArrayUsingNumberOfDays:(NSInteger)days withDate:(NSDate *)date fromCurrentCarouselIndex:(NSInteger)carouselIndex
+{
     NSMutableArray *mutableArray = [NSMutableArray new];
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *dateComponents = [calendar components:NSCalendarUnitDay fromDate:date];
+    
+    [dateComponents setDay:carouselIndex * days];
+    
+    NSDate *targetDate = [calendar dateByAddingComponents:dateComponents toDate:date options:0];
             
     for (int x = 0; x < kDataCount; x++) {
-        NSDate *date = [NSDate date];
-        
         NSCalendar *cal = [NSCalendar currentCalendar];
-        NSDateComponents *components = [cal components:NSCalendarUnitDay fromDate:date];
+        NSDateComponents *components = [cal components:NSCalendarUnitDay fromDate:targetDate];
         
         [components setDay:(-x*days)];
         
-        NSDate *dateToUse = [cal dateByAddingComponents:components toDate:date options:0];
+        NSDate *dateToUse = [cal dateByAddingComponents:components toDate:targetDate options:0];
 
         [mutableArray insertObject:dateToUse atIndex:[mutableArray count]];
     }
@@ -63,7 +68,7 @@ static const NSInteger kDataCount = 100;
         view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
         view.backgroundColor = [UIColor clearColor];
         view.layer.cornerRadius = view.frame.size.width/2;
-        view.layer.borderColor = [UIColor colorWithRed:0.84 green:0.15 blue:0.96 alpha:1.0].CGColor;
+        view.layer.borderColor = self.viewController.view.tintColor.CGColor;
         view.layer.borderWidth = 1.0f;
     }
     

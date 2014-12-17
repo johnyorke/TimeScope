@@ -26,6 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    self.view.tintColor = [UIColor colorWithRed:0.84 green:0.15 blue:0.96 alpha:1.0];
     self.dataSource = [[CarouselDataSource alloc] initWithViewController:self andCarousel:self.carousel];;
     self.carousel.delegate = self;
     self.carousel.dataSource = self.dataSource;
@@ -68,7 +69,9 @@
 {
     NSInteger sliderValue = slider.value;
     
-    [self.dataSource updateDataArrayUsingNumberOfDays:sliderValue];
+    NSDate *date = [self.dataSource.dataArray objectAtIndex:self.carousel.currentItemIndex];
+    
+    [self.dataSource updateDataArrayUsingNumberOfDays:sliderValue withDate:date fromCurrentCarouselIndex:self.carousel.currentItemIndex];
     
     [self.carousel reloadData];
         
@@ -104,25 +107,25 @@
         if (sliderValue == 1) {
             labelUnitText = @"Day";
         } else labelUnitText = @"Days";
-        self.scaleLabel.text = [NSString stringWithFormat:@"%d %@",sliderValue,labelUnitText];
+        self.scaleLabel.text = [NSString stringWithFormat:@"%ld %@",(long)sliderValue,labelUnitText];
     } else if (sliderValue > 7 && sliderValue <= 30) {
         NSInteger weeks = sliderValue / 7;
         if (weeks == 1) {
             labelUnitText = @"Week";
         } else labelUnitText = @"Weeks";
-        self.scaleLabel.text = [NSString stringWithFormat:@"%d %@",weeks,labelUnitText];
+        self.scaleLabel.text = [NSString stringWithFormat:@"%ld %@",(long)weeks,labelUnitText];
     } else if (sliderValue > 30 && sliderValue <= 365) {
         NSInteger months = sliderValue / 30;
         if (months == 1) {
             labelUnitText = @"Month";
         } else labelUnitText = @"Months";
-        self.scaleLabel.text = [NSString stringWithFormat:@"%d %@",months,labelUnitText];
+        self.scaleLabel.text = [NSString stringWithFormat:@"%ld %@",(long)months,labelUnitText];
     } else if (sliderValue > 365) {
         NSInteger years = sliderValue / 365;
         if (years == 1) {
             labelUnitText = @"Year";
         } else labelUnitText = @"Years";
-        self.scaleLabel.text = [NSString stringWithFormat:@"%d %@",years,labelUnitText];
+        self.scaleLabel.text = [NSString stringWithFormat:@"%ld %@",(long)years,labelUnitText];
     }
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
