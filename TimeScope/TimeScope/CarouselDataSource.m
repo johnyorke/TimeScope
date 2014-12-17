@@ -26,7 +26,7 @@ static const NSInteger kDataCount = 1000;
     if (self) {
         self.viewController = vc;
         self.carousel = carousel;
-        [self updateDataArrayUsingNumberOfDays:1 withDate:[NSDate date] fromCurrentCarouselIndex:0];
+        [self updateDataArrayUsingNumberOfDays:1 withDate:[NSDate date] fromCurrentCarouselIndex:500];
     }
     
     return self;
@@ -69,7 +69,7 @@ static const NSInteger kDataCount = 1000;
         view.backgroundColor = [UIColor clearColor];
         view.layer.cornerRadius = view.frame.size.width/2;
         view.layer.borderColor = self.viewController.view.tintColor.CGColor;
-        view.layer.borderWidth = 1.0f;
+        view.layer.borderWidth = 2.0f;
     }
     
     return view;

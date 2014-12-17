@@ -26,7 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    self.view.tintColor = [UIColor colorWithRed:0.84 green:0.15 blue:0.96 alpha:1.0];
+    self.view.tintColor = [UIColor colorWithRed:0.00 green:0.73 blue:1.00 alpha:1.0];
     self.dataSource = [[CarouselDataSource alloc] initWithViewController:self andCarousel:self.carousel];;
     self.carousel.delegate = self;
     self.carousel.dataSource = self.dataSource;
@@ -45,6 +45,13 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self.carousel scrollToItemAtIndex:500 animated:NO];
 }
 
 - (CGFloat)carousel:(iCarousel *)carousel valueForOption:(iCarouselOption)option withDefault:(CGFloat)value
