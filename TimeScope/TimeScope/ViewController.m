@@ -30,7 +30,7 @@
     self.dataSource = [[CarouselDataSource alloc] initWithViewController:self andCarousel:self.carousel];;
     self.carousel.delegate = self;
     self.carousel.dataSource = self.dataSource;
-    self.carousel.type = iCarouselTypeTimeMachine;
+    self.carousel.type = iCarouselTypeInvertedTimeMachine;
     [self.carousel setVertical:YES];
     
     self.meterRing.layer.cornerRadius = self.meterRing.frame.size.width / 2;
@@ -89,18 +89,31 @@
 {
     if ([self.dataSource.dataArray count] > 0){
         NSDate *date = [self.dataSource.dataArray objectAtIndex:self.carousel.currentItemIndex];
-        self.meterLabel.text = [self stringFromDate:date];
+        self.meterLabel.attributedText = [self stringFromDate:date];
     }
 }
 
-- (NSString *)stringFromDate:(NSDate *)date
+- (NSAttributedString *)stringFromDate:(NSDate *)date
 {
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     //dateFormat.dateStyle = NSDateFormatterLongStyle;
-    dateFormat.dateFormat = @"d MMMM yyyy, G";
-    NSString *dateString = [dateFormat stringFromDate:date];
+    dateFormat.dateFormat = @"d MMMM, yyyy";
+    NSString *dateString = [[dateFormat stringFromDate:date] uppercaseString];
     
-    return dateString;
+    dateFormat.dateFormat = @"hh:mm a";
+    NSString *timeString = [[dateFormat stringFromDate:date] uppercaseString];
+    
+    NSString *combinedString = [NSString stringWithFormat:@"%@\n%@",dateString,timeString];
+    
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:combinedString attributes:nil];
+    
+    [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:24] range:[combinedString rangeOfString:dateString]];
+    
+    [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:18] range:[combinedString rangeOfString:timeString]];
+    
+    [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor darkGrayColor] range:[combinedString rangeOfString:timeString]];
+    
+    return [[NSAttributedString alloc] initWithAttributedString:attributedString];
 }
 
 - (void)setScaleLabelTextWithSliderValue:(CGFloat)value
@@ -141,15 +154,5 @@
         }];
     });
 }
-
-//- (CATransform3D)carousel:(iCarousel *)carousel itemTransformForOffset:(CGFloat)offset baseTransform:(CATransform3D)transform
-//{
-//    CGFloat tilt = 0;
-//    CGFloat spacing = 1;
-//    
-//    NSLog(@"offset = %f", offset);
-//
-//    return CATransform3DTranslate(transform, 0.0, offset * carousel.currentItemView.frame.size.width * tilt, offset * carousel.currentItemView.frame.size.width * spacing);
-//}
 
 @end
