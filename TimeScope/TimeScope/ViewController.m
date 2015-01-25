@@ -109,7 +109,7 @@
     
     [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:24] range:[combinedString rangeOfString:dateString]];
     
-    [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:18] range:[combinedString rangeOfString:timeString]];
+    [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:[combinedString rangeOfString:timeString]];
     
     [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor darkGrayColor] range:[combinedString rangeOfString:timeString]];
     

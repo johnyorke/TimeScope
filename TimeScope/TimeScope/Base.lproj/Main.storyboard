@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C99d" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -16,28 +17,59 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LcW-7G-lpA" userLabel="White Ring">
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LcW-7G-lpA" userLabel="White Ring">
                                 <rect key="frame" x="40" y="164" width="240" height="240"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FuT-Vm-rqI" userLabel="White Ring Handle">
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FuT-Vm-rqI" userLabel="White Ring Handle">
                                 <rect key="frame" x="159" y="106" width="2" height="58"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A9p-ud-ino" customClass="iCarousel">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A9p-ud-ino" customClass="iCarousel">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Scroll to go back in time..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mO0-Bt-AFH">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Scroll to go back in time..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mO0-Bt-AFH">
                                         <rect key="frame" x="8" y="33" width="304" height="68"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gEZ-Qx-BLB">
+                                        <rect key="frame" x="40" y="498" width="38" height="30"/>
+                                        <state key="normal" title="Scale">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kLx-4U-dg1">
+                                        <rect key="frame" x="241" y="498" width="39" height="30"/>
+                                        <state key="normal" title="Menu">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="mO0-Bt-AFH" secondAttribute="trailing" constant="8" id="VwZ-CG-YCH"/>
+                                    <constraint firstItem="gEZ-Qx-BLB" firstAttribute="leading" secondItem="A9p-ud-ino" secondAttribute="leading" constant="40" id="XNF-XC-8Aw"/>
+                                    <constraint firstItem="mO0-Bt-AFH" firstAttribute="leading" secondItem="A9p-ud-ino" secondAttribute="leading" constant="8" id="XvR-Jh-DAb"/>
+                                    <constraint firstAttribute="bottom" secondItem="gEZ-Qx-BLB" secondAttribute="bottom" constant="40" id="hfg-nR-eNa"/>
+                                    <constraint firstAttribute="bottom" secondItem="kLx-4U-dg1" secondAttribute="bottom" constant="40" id="nts-6A-7wH"/>
+                                    <constraint firstAttribute="trailing" secondItem="kLx-4U-dg1" secondAttribute="trailing" constant="40" id="uKD-eE-PkL"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="A9p-ud-ino" secondAttribute="trailing" constant="-16" id="6rv-JY-d5b"/>
+                            <constraint firstAttribute="centerX" secondItem="FuT-Vm-rqI" secondAttribute="centerX" id="KbW-GO-Otj"/>
+                            <constraint firstItem="LcW-7G-lpA" firstAttribute="top" secondItem="FuT-Vm-rqI" secondAttribute="bottom" id="RT8-hK-ZP6"/>
+                            <constraint firstItem="FuT-Vm-rqI" firstAttribute="top" secondItem="mO0-Bt-AFH" secondAttribute="bottom" constant="5" id="i0T-xo-lNG"/>
+                            <constraint firstItem="LcW-7G-lpA" firstAttribute="centerX" secondItem="A9p-ud-ino" secondAttribute="centerX" id="lQ0-Nt-g2A"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="A9p-ud-ino" secondAttribute="bottom" id="nV3-uk-Unr"/>
+                            <constraint firstItem="LcW-7G-lpA" firstAttribute="centerY" secondItem="A9p-ud-ino" secondAttribute="centerY" id="nVq-jK-dQK"/>
+                            <constraint firstItem="A9p-ud-ino" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="w6d-4h-qjg"/>
+                            <constraint firstItem="A9p-ud-ino" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="-20" id="wMv-ks-FLC"/>
+                        </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
