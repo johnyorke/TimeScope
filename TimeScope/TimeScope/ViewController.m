@@ -39,7 +39,7 @@
     NSMutableArray *mutableImages = [NSMutableArray new];
     for (int x = 0; x < [imageNames count]; x++) {
         UIImage *plainImage = [UIImage imageNamed:[imageNames objectAtIndex:x]];
-        UIImage *tintedImage = [self tintedImageWithColor:self.view.tintColor blendingMode:kCGBlendModeOverlay usingImage:plainImage];
+        UIImage *tintedImage = [self imageWithColorOverlay:[self.view tintColor] usingImage:plainImage];
                           
         [mutableImages addObject:tintedImage];
     }
@@ -100,23 +100,55 @@
     }
     
     self.ringView.image = image;
+    
+    [self.ringView setNeedsDisplay];
 }
 
-- (UIImage *)tintedImageWithColor:(UIColor *)tintColor blendingMode:(CGBlendMode)blendMode usingImage:(UIImage *)image
-{
-    UIGraphicsBeginImageContextWithOptions(self.view.frame.size, NO, 0.0f);
-    [tintColor setFill];
-    CGRect bounds = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    UIRectFill(bounds);
-    [image drawInRect:bounds blendMode:blendMode alpha:1.0f];
+- (UIImage*)imageWithColorOverlay:(UIColor*)colorOverlay usingImage:(UIImage *)image
+{   
+    // create drawing context 
+    UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
     
-    if (blendMode != kCGBlendModeDestinationIn)
-        [image drawInRect:bounds blendMode:kCGBlendModeDestinationIn alpha:1.0];
+    // draw current image
+    [image drawAtPoint:CGPointZero];
     
-    UIImage *tintedImage = UIGraphicsGetImageFromCurrentImageContext();
+    // determine bounding box of current image
+    CGRect rect = CGRectMake(0, 0, image.size.width, image.size.height);
+    
+    // get drawing context
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    // flip orientation
+    CGContextTranslateCTM(context, 0.0, image.size.height);
+    CGContextScaleCTM(context, 1.0, -1.0);
+    
+    // set overlay
+    CGContextSetBlendMode(context, kCGBlendModeMultiply);
+    CGContextClipToMask(context, rect, image.CGImage);
+    
+    CGFloat colors [] = { 
+        0.75, 1.0, 0.25, 1.0, 
+        1.0, 0.0, 0.0, 1.0,
+        0.75, 1.0, 0.25, 1.0
+    };
+    
+    CGColorSpaceRef baseSpace = CGColorSpaceCreateDeviceRGB();
+    CGGradientRef gradient = CGGradientCreateWithColorComponents(baseSpace, colors, NULL, 3);
+    CGColorSpaceRelease(baseSpace), baseSpace = NULL;
+    
+    CGPoint startPoint = CGPointMake(CGRectGetMinX(rect), CGRectGetMidY(rect));
+    CGPoint endPoint = CGPointMake(CGRectGetMaxX(rect), CGRectGetMidY(rect));
+    
+    CGContextDrawLinearGradient(context, gradient, startPoint, endPoint, 0);
+    CGGradientRelease(gradient), gradient = NULL;
+    
+    // save drawing-buffer
+    UIImage *returnImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    // end drawing context
     UIGraphicsEndImageContext();
     
-    return tintedImage;
+    return returnImage;
 }
 
 - (NSDate *)dateByAddingComponent:(NSDateComponents *)components
