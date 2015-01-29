@@ -7,15 +7,14 @@
 //
 
 #import "ViewController.h"
-#import "CarouselDataSource.h"
 
 @interface ViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *meterRing;
 @property (weak, nonatomic) IBOutlet UIView *meterRingHandle;
 @property (weak, nonatomic) IBOutlet UILabel *meterLabel;
-@property (strong, nonatomic) CarouselDataSource *dataSource;
 @property (nonatomic, strong) UIImageView *ringView;
+@property (nonatomic, strong) UIImageView *gradientView;
 @property (nonatomic, assign) NSInteger currentIndex;
 @property (nonatomic, copy) NSArray *images;
 @property (nonatomic, strong) NSDate *currentDate;
@@ -39,14 +38,17 @@
     
     NSMutableArray *mutableImages = [NSMutableArray new];
     for (int x = 0; x < [imageNames count]; x++) {
-        [mutableImages addObject:[UIImage imageNamed:[imageNames objectAtIndex:x]]];
+        UIImage *plainImage = [UIImage imageNamed:[imageNames objectAtIndex:x]];
+        UIImage *tintedImage = [self tintedImageWithColor:self.view.tintColor blendingMode:kCGBlendModeOverlay usingImage:plainImage];
+                          
+        [mutableImages addObject:tintedImage];
     }
     self.images = [NSArray arrayWithArray:mutableImages];
     
     self.ringView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.ringView.image = [self.images objectAtIndex:self.currentIndex];
     self.ringView.userInteractionEnabled = YES;
-    [self.view addSubview:self.ringView];
+    [self.view insertSubview:self.ringView belowSubview:self.meterRing];
     UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(ringViewDidPan:)];
     [self.ringView addGestureRecognizer:pan];
     
@@ -87,7 +89,34 @@
     
     self.meterLabel.attributedText = [self attributedStringFromDate:[self dateByAddingComponent:dateComponents]];
     
-    self.ringView.image = [self.images objectAtIndex:self.currentIndex];
+    [self updateRingViewWithUsingImage:[self.images objectAtIndex:self.currentIndex]];
+}
+
+- (void)updateRingViewWithUsingImage:(UIImage *)image
+{
+    if (!self.gradientView) {
+        self.gradientView = [[UIImageView alloc] initWithFrame:self.ringView.frame];
+        [self.view addSubview:self.gradientView];
+    }
+    
+    self.ringView.image = image;
+}
+
+- (UIImage *)tintedImageWithColor:(UIColor *)tintColor blendingMode:(CGBlendMode)blendMode usingImage:(UIImage *)image
+{
+    UIGraphicsBeginImageContextWithOptions(self.view.frame.size, NO, 0.0f);
+    [tintColor setFill];
+    CGRect bounds = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    UIRectFill(bounds);
+    [image drawInRect:bounds blendMode:blendMode alpha:1.0f];
+    
+    if (blendMode != kCGBlendModeDestinationIn)
+        [image drawInRect:bounds blendMode:kCGBlendModeDestinationIn alpha:1.0];
+    
+    UIImage *tintedImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return tintedImage;
 }
 
 - (NSDate *)dateByAddingComponent:(NSDateComponents *)components
