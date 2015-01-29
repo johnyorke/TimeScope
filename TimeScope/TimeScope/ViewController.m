@@ -11,13 +11,14 @@
 
 @interface ViewController ()
 
-@property (weak, nonatomic) IBOutlet iCarousel *carousel;
 @property (weak, nonatomic) IBOutlet UIView *meterRing;
 @property (weak, nonatomic) IBOutlet UIView *meterRingHandle;
 @property (weak, nonatomic) IBOutlet UILabel *meterLabel;
 @property (strong, nonatomic) CarouselDataSource *dataSource;
-@property (weak, nonatomic) IBOutlet UISlider *slider;
-@property (weak, nonatomic) IBOutlet UILabel *scaleLabel;
+@property (nonatomic, strong) UIImageView *ringView;
+@property (nonatomic, assign) NSInteger currentIndex;
+@property (nonatomic, copy) NSArray *images;
+@property (nonatomic, strong) NSDate *currentDate;
 
 @end
 
@@ -27,19 +28,31 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.view.tintColor = [UIColor colorWithRed:0.00 green:0.73 blue:1.00 alpha:1.0];
-    self.dataSource = [[CarouselDataSource alloc] initWithViewController:self andCarousel:self.carousel];;
-    self.carousel.delegate = self;
-    self.carousel.dataSource = self.dataSource;
-    self.carousel.type = iCarouselTypeInvertedTimeMachine;
-    [self.carousel setVertical:YES];
     
     self.meterRing.layer.cornerRadius = self.meterRing.frame.size.width / 2;
     self.meterRing.layer.borderColor = [UIColor whiteColor].CGColor;
     self.meterRing.layer.borderWidth = 2;
     
-    [self setScaleLabelTextWithSliderValue:self.slider.value];
+    self.currentIndex = 0;
     
-    [self.slider addTarget:self action:@selector(sliderUpdated:) forControlEvents:UIControlEventAllEvents];
+    NSArray *imageNames = @[@"0",@"1",@"2",@"3",@"4",@"5",@"6"];
+    
+    NSMutableArray *mutableImages = [NSMutableArray new];
+    for (int x = 0; x < [imageNames count]; x++) {
+        [mutableImages addObject:[UIImage imageNamed:[imageNames objectAtIndex:x]]];
+    }
+    self.images = [NSArray arrayWithArray:mutableImages];
+    
+    self.ringView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    self.ringView.image = [self.images objectAtIndex:self.currentIndex];
+    self.ringView.userInteractionEnabled = YES;
+    [self.view addSubview:self.ringView];
+    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(ringViewDidPan:)];
+    [self.ringView addGestureRecognizer:pan];
+    
+    self.currentDate = [NSDate date];
+    
+    self.meterLabel.attributedText = [self attributedStringFromDate:self.currentDate];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -50,53 +63,45 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [self.carousel scrollToItemAtIndex:500 animated:NO];
 }
 
-- (CGFloat)carousel:(iCarousel *)carousel valueForOption:(iCarouselOption)option withDefault:(CGFloat)value
-{
-    switch (option) {
-        case iCarouselOptionWrap:
-            return NO;
-            break;
-        case iCarouselOptionTilt:
-            return 0;
-            break;
-        case iCarouselOptionVisibleItems:
-            return 40;
-        default:
-            break;
+- (void)ringViewDidPan:(UIPanGestureRecognizer *)pan
+{    
+    CGPoint velocity = [pan velocityInView:self.ringView];
+    
+    NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
+    
+    if (velocity.y < 0) {
+        self.currentIndex++;
+        dateComponents.day = 7;
+    } else {
+       self.currentIndex--; 
+        dateComponents.day = -7;
     }
     
-    return value;
-}
-
-- (void)sliderUpdated:(UISlider *)slider
-{
-    NSInteger sliderValue = slider.value;
-    
-    NSDate *date = [self.dataSource.dataArray objectAtIndex:self.carousel.currentItemIndex];
-    
-    [self.dataSource updateDataArrayUsingNumberOfDays:sliderValue withDate:date fromCurrentCarouselIndex:self.carousel.currentItemIndex];
-    
-    [self.carousel reloadData];
-        
-    [self setScaleLabelTextWithSliderValue:slider.value];
-}
-
-- (void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel
-{
-    if ([self.dataSource.dataArray count] > 0){
-        NSDate *date = [self.dataSource.dataArray objectAtIndex:self.carousel.currentItemIndex];
-        self.meterLabel.attributedText = [self stringFromDate:date];
+    if (self.currentIndex == [self.images count]) {
+        self.currentIndex = 0;
+    } else if (self.currentIndex < 0) {
+        self.currentIndex = [self.images count] - 1;
     }
+    
+    self.meterLabel.attributedText = [self attributedStringFromDate:[self dateByAddingComponent:dateComponents]];
+    
+    self.ringView.image = [self.images objectAtIndex:self.currentIndex];
 }
 
-- (NSAttributedString *)stringFromDate:(NSDate *)date
+- (NSDate *)dateByAddingComponent:(NSDateComponents *)components
+{
+    NSDate *newDate = [[NSCalendar currentCalendar] dateByAddingComponents:components toDate:self.currentDate options:0];
+    
+    self.currentDate = newDate;
+    
+    return newDate;
+}
+
+- (NSAttributedString *)attributedStringFromDate:(NSDate *)date
 {
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    //dateFormat.dateStyle = NSDateFormatterLongStyle;
     dateFormat.dateFormat = @"d MMMM, yyyy";
     NSString *dateString = [[dateFormat stringFromDate:date] uppercaseString];
     
@@ -114,45 +119,6 @@
     [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor darkGrayColor] range:[combinedString rangeOfString:timeString]];
     
     return [[NSAttributedString alloc] initWithAttributedString:attributedString];
-}
-
-- (void)setScaleLabelTextWithSliderValue:(CGFloat)value
-{
-    self.scaleLabel.alpha = 1;
-    NSInteger sliderValue = value;
-
-    NSString *labelUnitText= nil;
-    
-    if (sliderValue <= 7) {
-        if (sliderValue == 1) {
-            labelUnitText = @"Day";
-        } else labelUnitText = @"Days";
-        self.scaleLabel.text = [NSString stringWithFormat:@"%ld %@",(long)sliderValue,labelUnitText];
-    } else if (sliderValue > 7 && sliderValue <= 30) {
-        NSInteger weeks = sliderValue / 7;
-        if (weeks == 1) {
-            labelUnitText = @"Week";
-        } else labelUnitText = @"Weeks";
-        self.scaleLabel.text = [NSString stringWithFormat:@"%ld %@",(long)weeks,labelUnitText];
-    } else if (sliderValue > 30 && sliderValue <= 365) {
-        NSInteger months = sliderValue / 30;
-        if (months == 1) {
-            labelUnitText = @"Month";
-        } else labelUnitText = @"Months";
-        self.scaleLabel.text = [NSString stringWithFormat:@"%ld %@",(long)months,labelUnitText];
-    } else if (sliderValue > 365) {
-        NSInteger years = sliderValue / 365;
-        if (years == 1) {
-            labelUnitText = @"Year";
-        } else labelUnitText = @"Years";
-        self.scaleLabel.text = [NSString stringWithFormat:@"%ld %@",(long)years,labelUnitText];
-    }
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [UIView animateWithDuration:1 animations:^{
-            self.scaleLabel.alpha = 0;
-        }];
-    });
 }
 
 @end
