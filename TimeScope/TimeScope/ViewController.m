@@ -40,7 +40,7 @@
     for (int x = 0; x < [imageNames count]; x++) {
         UIImage *plainImage = [UIImage imageNamed:[imageNames objectAtIndex:x]];
         UIImage *tintedImage = [self imageWithColorOverlay:[self.view tintColor] usingImage:plainImage];
-                          
+        
         [mutableImages addObject:tintedImage];
     }
     self.images = [NSArray arrayWithArray:mutableImages];
@@ -71,13 +71,31 @@
 {    
     CGPoint velocity = [pan velocityInView:self.ringView];
     
+    [self scrollRingUsingVelocty:velocity];
+    
+    if (pan.state == UIGestureRecognizerStateEnded) {
+        CGPoint newVelocity = velocity;
+        if (newVelocity.y < 0) {
+            newVelocity = CGPointMake(0, 0 - newVelocity.y);
+        }
+        for (int x = 0; x < newVelocity.y / 55; x++) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(x * 0.015 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self scrollRingUsingVelocty:velocity];
+            });;
+        }
+    }
+    
+}
+
+- (void)scrollRingUsingVelocty:(CGPoint)velocity
+{
     NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
     
     if (velocity.y < 0) {
-        self.currentIndex++;
+        self.currentIndex = self.currentIndex + 1;
         dateComponents.day = 7;
     } else {
-       self.currentIndex--; 
+        self.currentIndex = self.currentIndex - 1; 
         dateComponents.day = -7;
     }
     
@@ -101,7 +119,6 @@
     
     self.ringView.image = image;
     
-    [self.ringView setNeedsDisplay];
 }
 
 - (UIImage*)imageWithColorOverlay:(UIColor*)colorOverlay usingImage:(UIImage *)image
