@@ -128,18 +128,17 @@
     
     CGFloat colors [] = { 
         0.75, 1.0, 0.25, 1.0, 
-        1.0, 0.0, 0.0, 1.0,
-        0.75, 1.0, 0.25, 1.0
+        1.0, 0.0, 0.0, 1.0
     };
     
     CGColorSpaceRef baseSpace = CGColorSpaceCreateDeviceRGB();
-    CGGradientRef gradient = CGGradientCreateWithColorComponents(baseSpace, colors, NULL, 3);
+    CGGradientRef gradient = CGGradientCreateWithColorComponents(baseSpace, colors, NULL, 2);
     CGColorSpaceRelease(baseSpace), baseSpace = NULL;
     
-    CGPoint startPoint = CGPointMake(CGRectGetMinX(rect), CGRectGetMidY(rect));
-    CGPoint endPoint = CGPointMake(CGRectGetMaxX(rect), CGRectGetMidY(rect));
+    CGPoint startPoint = CGPointMake(CGRectGetMidX(rect), CGRectGetMidY(rect));
+    CGPoint endPoint = CGPointMake(CGRectGetMidX(rect), CGRectGetMidY(rect));
     
-    CGContextDrawLinearGradient(context, gradient, startPoint, endPoint, 0);
+    CGContextDrawRadialGradient(context, gradient, startPoint, 0, endPoint, self.view.frame.size.height, 0);
     CGGradientRelease(gradient), gradient = NULL;
     
     // save drawing-buffer
