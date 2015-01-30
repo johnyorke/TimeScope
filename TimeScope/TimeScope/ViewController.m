@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "RingSet.h"
 
 @interface ViewController ()
 
@@ -34,16 +35,9 @@
     
     self.currentIndex = 0;
     
-    NSArray *imageNames = @[@"0",@"1",@"2",@"3",@"4",@"5",@"6"];
+    RingSet *ringSet = [RingSet new];
     
-    NSMutableArray *mutableImages = [NSMutableArray new];
-    for (int x = 0; x < [imageNames count]; x++) {
-        UIImage *plainImage = [UIImage imageNamed:[imageNames objectAtIndex:x]];
-        UIImage *tintedImage = [self imageWithColorOverlay:[self.view tintColor] usingImage:plainImage];
-        
-        [mutableImages addObject:tintedImage];
-    }
-    self.images = [NSArray arrayWithArray:mutableImages];
+    self.images = ringSet.images;
     
     self.ringView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.ringView.image = [self.images objectAtIndex:self.currentIndex];
