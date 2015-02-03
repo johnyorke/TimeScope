@@ -9,13 +9,15 @@
 #import "ViewController.h"
 #import "RingSet.h"
 
+static const NSInteger kNumberOfFramesBetweenRings = 10;
+static const NSInteger kNumberOfMinutesInADay = 60*24;
+
 @interface ViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *meterRing;
 @property (weak, nonatomic) IBOutlet UIView *meterRingHandle;
 @property (weak, nonatomic) IBOutlet UILabel *meterLabel;
 @property (nonatomic, strong) UIImageView *ringView;
-@property (nonatomic, strong) UIImageView *gradientView;
 @property (nonatomic, assign) NSInteger currentIndex;
 @property (nonatomic, copy) NSArray *images;
 @property (nonatomic, strong) NSDate *currentDate;
@@ -34,7 +36,7 @@
     self.meterRing.layer.borderColor = [UIColor whiteColor].CGColor;
     self.meterRing.layer.borderWidth = 2;
     
-    self.currentIndex = 0;
+    self.currentIndex = [self workOutCurrentIndexFromTime];
     
     RingSet *ringSet = [RingSet new];
     
@@ -90,14 +92,14 @@
     
     if (velocity.y < 0) {
         self.currentIndex = self.currentIndex + _currentIntervalDays;
-        dateComponents.day = -_currentIntervalDays;
-        dateComponents.hour = 1;
-        dateComponents.minute = 1;
+        //dateComponents.day = _currentIntervalDays;
+        //dateComponents.hour = 1;
+        dateComponents.minute = (kNumberOfMinutesInADay / kNumberOfFramesBetweenRings) + 1;
     } else {
         self.currentIndex = self.currentIndex - _currentIntervalDays; 
-        dateComponents.day = -_currentIntervalDays;
-        dateComponents.hour = -1;
-        dateComponents.minute = -1;
+        //dateComponents.day = -_currentIntervalDays;
+        //dateComponents.hour = -1;
+        dateComponents.minute = (-(kNumberOfMinutesInADay / kNumberOfFramesBetweenRings)) - 1;
     }
     
     if (self.currentIndex == [self.images count]) {
@@ -108,18 +110,7 @@
     
     self.meterLabel.attributedText = [self attributedStringFromDate:[self dateByAddingComponent:dateComponents]];
     
-    [self updateRingViewWithUsingImage:[self.images objectAtIndex:self.currentIndex]];
-}
-
-- (void)updateRingViewWithUsingImage:(UIImage *)image
-{
-    if (!self.gradientView) {
-        self.gradientView = [[UIImageView alloc] initWithFrame:self.ringView.frame];
-        [self.view addSubview:self.gradientView];
-    }
-    
-    self.ringView.image = image;
-    
+    self.ringView.image = [self.images objectAtIndex:self.currentIndex];
 }
 
 - (UIImage*)imageWithColorOverlay:(UIColor*)colorOverlay usingImage:(UIImage *)image
@@ -197,6 +188,28 @@
     [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor darkGrayColor] range:[combinedString rangeOfString:timeString]];
     
     return [[NSAttributedString alloc] initWithAttributedString:attributedString];
+}
+
+- (NSInteger)workOutCurrentIndexFromTime
+{
+    NSDate *date = [NSDate date];
+    
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    
+    formatter.dateFormat = @"mm";
+    
+    NSString *minute = [formatter stringFromDate:date];
+    
+    formatter.dateFormat = @"HH";
+    
+    NSString *hour = [formatter stringFromDate:date];
+    
+    NSInteger minutes = [minute integerValue];
+    NSInteger hours = [hour integerValue];
+        
+    NSInteger currentIndex = (kNumberOfFramesBetweenRings * ((hours * 60) + minutes) / kNumberOfMinutesInADay);
+    
+    return currentIndex;
 }
 
 @end
