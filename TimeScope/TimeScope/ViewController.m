@@ -19,6 +19,7 @@
 @property (nonatomic, assign) NSInteger currentIndex;
 @property (nonatomic, copy) NSArray *images;
 @property (nonatomic, strong) NSDate *currentDate;
+@property (nonatomic, assign) NSInteger currentIntervalDays;
 
 @end
 
@@ -49,6 +50,8 @@
     self.currentDate = [NSDate date];
     
     self.meterLabel.attributedText = [self attributedStringFromDate:self.currentDate];
+    
+    self.currentIntervalDays = 1;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -73,7 +76,7 @@
             newVelocity = CGPointMake(0, 0 - newVelocity.y);
         }
         for (int x = 0; x < newVelocity.y / 55; x++) {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(x * 0.015 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(x * 0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self scrollRingUsingVelocty:velocity];
             });;
         }
@@ -86,11 +89,15 @@
     NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
     
     if (velocity.y < 0) {
-        self.currentIndex = self.currentIndex + 1;
-        dateComponents.day = 7;
+        self.currentIndex = self.currentIndex + _currentIntervalDays;
+        dateComponents.day = -_currentIntervalDays;
+        dateComponents.hour = 1;
+        dateComponents.minute = 1;
     } else {
-        self.currentIndex = self.currentIndex - 1; 
-        dateComponents.day = -7;
+        self.currentIndex = self.currentIndex - _currentIntervalDays; 
+        dateComponents.day = -_currentIntervalDays;
+        dateComponents.hour = -1;
+        dateComponents.minute = -1;
     }
     
     if (self.currentIndex == [self.images count]) {

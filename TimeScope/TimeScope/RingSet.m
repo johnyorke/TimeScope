@@ -8,8 +8,8 @@
 
 #import "RingSet.h"
 
-static NSString *kFileNamePrefix = @"B3x_";
-static const NSInteger kArbitaryUpperRingLimit = 50;
+static NSString *kFileNamePrefix = @"C1x_";
+static const NSInteger kArbitaryUpperRingLimit = 100;
 
 @implementation RingSet
 
@@ -28,8 +28,8 @@ static const NSInteger kArbitaryUpperRingLimit = 50;
 {    
     NSMutableArray *images = [NSMutableArray new];
 
-    for (int x = 0; x < 50; x++) {
-        NSString *string = [NSString stringWithFormat:@"%@%02d",kFileNamePrefix,x];
+    for (int x = 0; x < kArbitaryUpperRingLimit; x++) {
+        NSString *string = [NSString stringWithFormat:@"%@%05d",kFileNamePrefix,x];
         UIImage *image = [UIImage imageNamed:string];
         if (image) {
             [images addObject:image];
