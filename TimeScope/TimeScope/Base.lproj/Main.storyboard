@@ -116,7 +116,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JZh-ef-BaI">
-                                        <rect key="frame" x="50" y="100" width="88" height="88"/>
+                                        <rect key="frame" x="54" y="100" width="88" height="88"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="88" id="Yd7-Cf-tmS"/>
                                             <constraint firstAttribute="height" constant="88" id="or9-pR-2kg"/>
@@ -126,7 +126,7 @@
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gLE-hu-cMu">
-                                        <rect key="frame" x="237" y="100" width="88" height="88"/>
+                                        <rect key="frame" x="233" y="100" width="88" height="88"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="88" id="Hdd-FK-ViZ"/>
                                             <constraint firstAttribute="height" constant="88" id="tZe-hz-dR4"/>
@@ -136,7 +136,7 @@
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ecr-O8-Rzt">
-                                        <rect key="frame" x="50" y="248" width="88" height="88"/>
+                                        <rect key="frame" x="54" y="248" width="88" height="88"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="88" id="ceg-zJ-BdR"/>
                                             <constraint firstAttribute="height" constant="88" id="h9i-Da-S46"/>
@@ -146,7 +146,7 @@
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fbl-py-eDX">
-                                        <rect key="frame" x="237" y="248" width="88" height="88"/>
+                                        <rect key="frame" x="233" y="248" width="88" height="88"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="88" id="9Mh-Nu-BUU"/>
                                             <constraint firstAttribute="height" constant="88" id="fJM-wz-mvq"/>
@@ -156,7 +156,7 @@
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qPQ-5b-By6">
-                                        <rect key="frame" x="50" y="396" width="86" height="86"/>
+                                        <rect key="frame" x="54" y="396" width="86" height="86"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="86" id="Gep-bP-dgI"/>
                                             <constraint firstAttribute="width" constant="86" id="HJz-Ek-UuG"/>
@@ -179,7 +179,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IqL-Zb-Mba">
-                                        <rect key="frame" x="237" y="394" width="88" height="88"/>
+                                        <rect key="frame" x="233" y="394" width="88" height="88"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="88" id="9zB-d0-he4"/>
                                             <constraint firstAttribute="height" constant="88" id="mmb-8A-ALq"/>
@@ -190,17 +190,17 @@
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="fbl-py-eDX" secondAttribute="trailing" constant="50" id="6cz-OJ-BZF"/>
-                                    <constraint firstItem="qPQ-5b-By6" firstAttribute="leading" secondItem="zTy-Q1-HZM" secondAttribute="leading" constant="50" id="6o6-Lg-h7U"/>
+                                    <constraint firstAttribute="trailing" secondItem="fbl-py-eDX" secondAttribute="trailing" constant="54" id="6cz-OJ-BZF"/>
+                                    <constraint firstItem="qPQ-5b-By6" firstAttribute="leading" secondItem="zTy-Q1-HZM" secondAttribute="leading" constant="54" id="6o6-Lg-h7U"/>
                                     <constraint firstItem="fbl-py-eDX" firstAttribute="top" secondItem="gLE-hu-cMu" secondAttribute="bottom" constant="60" id="Cd1-Mf-Wjh"/>
                                     <constraint firstItem="qPQ-5b-By6" firstAttribute="top" secondItem="Ecr-O8-Rzt" secondAttribute="bottom" constant="60" id="G32-6j-nsz"/>
                                     <constraint firstItem="Ecr-O8-Rzt" firstAttribute="top" secondItem="JZh-ef-BaI" secondAttribute="bottom" constant="60" id="LmP-pP-mEE"/>
-                                    <constraint firstItem="Ecr-O8-Rzt" firstAttribute="leading" secondItem="zTy-Q1-HZM" secondAttribute="leading" constant="50" id="R5O-76-5ra"/>
+                                    <constraint firstItem="Ecr-O8-Rzt" firstAttribute="leading" secondItem="zTy-Q1-HZM" secondAttribute="leading" constant="54" id="R5O-76-5ra"/>
                                     <constraint firstItem="gLE-hu-cMu" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="JZh-ef-BaI" secondAttribute="trailing" priority="750" constant="50" id="Ri3-eO-mmu"/>
-                                    <constraint firstAttribute="trailing" secondItem="IqL-Zb-Mba" secondAttribute="trailing" constant="50" id="UFw-Va-OOK"/>
+                                    <constraint firstAttribute="trailing" secondItem="IqL-Zb-Mba" secondAttribute="trailing" constant="54" id="UFw-Va-OOK"/>
                                     <constraint firstAttribute="trailing" secondItem="nvB-OD-0X9" secondAttribute="trailing" constant="15" id="Wee-DS-w9B"/>
-                                    <constraint firstAttribute="trailing" secondItem="gLE-hu-cMu" secondAttribute="trailing" constant="50" id="fiz-Xv-7Xf"/>
-                                    <constraint firstItem="JZh-ef-BaI" firstAttribute="leading" secondItem="zTy-Q1-HZM" secondAttribute="leading" constant="50" id="hyI-eo-Nin"/>
+                                    <constraint firstAttribute="trailing" secondItem="gLE-hu-cMu" secondAttribute="trailing" constant="54" id="fiz-Xv-7Xf"/>
+                                    <constraint firstItem="JZh-ef-BaI" firstAttribute="leading" secondItem="zTy-Q1-HZM" secondAttribute="leading" constant="54" id="hyI-eo-Nin"/>
                                     <constraint firstItem="gLE-hu-cMu" firstAttribute="top" secondItem="zTy-Q1-HZM" secondAttribute="top" constant="100" id="i62-xU-Jgh"/>
                                     <constraint firstItem="fbl-py-eDX" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ecr-O8-Rzt" secondAttribute="trailing" priority="750" constant="50" id="l9P-Oh-qy7"/>
                                     <constraint firstItem="IqL-Zb-Mba" firstAttribute="top" secondItem="fbl-py-eDX" secondAttribute="bottom" constant="58" id="lYD-WN-2oZ"/>

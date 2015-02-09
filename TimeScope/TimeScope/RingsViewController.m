@@ -37,14 +37,10 @@ static const NSInteger kNumberOfMinutesInADay = 60*24;
     self.meterRing.layer.borderColor = [UIColor whiteColor].CGColor;
     self.meterRing.layer.borderWidth = 2;
     
-    self.currentIndex = [self workOutCurrentIndexFromTime];
-    
     RingSet *ringSet = [RingSet new];
-    
     self.images = ringSet.images;
     
     self.ringView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    self.ringView.image = [self.images objectAtIndex:self.currentIndex];
     self.ringView.userInteractionEnabled = YES;
     [self.view insertSubview:self.ringView belowSubview:self.meterRing];
     UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(ringViewDidPan:)];
@@ -65,6 +61,9 @@ static const NSInteger kNumberOfMinutesInADay = 60*24;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    self.currentIndex = [self workOutCurrentIndexFromTime];
+    self.ringView.image = [self.images objectAtIndex:self.currentIndex];
 }
 
 - (void)ringViewDidPan:(UIPanGestureRecognizer *)pan
@@ -93,14 +92,11 @@ static const NSInteger kNumberOfMinutesInADay = 60*24;
     
     if (velocity.y < 0) {
         self.currentIndex = self.currentIndex + _currentIntervalDays;
-        //dateComponents.day = _currentIntervalDays;
-        //dateComponents.hour = 1;
-        dateComponents.minute = (kNumberOfMinutesInADay / kNumberOfFramesBetweenRings) + 1;
+
+        dateComponents.minute = (kNumberOfMinutesInADay / kNumberOfFramesBetweenRings);
     } else {
-        self.currentIndex = self.currentIndex - _currentIntervalDays; 
-        //dateComponents.day = -_currentIntervalDays;
-        //dateComponents.hour = -1;
-        dateComponents.minute = (-(kNumberOfMinutesInADay / kNumberOfFramesBetweenRings)) - 1;
+        self.currentIndex = self.currentIndex - _currentIntervalDays;
+        dateComponents.minute = (-(kNumberOfMinutesInADay / kNumberOfFramesBetweenRings));
     }
     
     if (self.currentIndex == [self.images count]) {
