@@ -16,6 +16,7 @@
 		CAF9103B1A7C133B0038B4F9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CAF9103A1A7C133B0038B4F9 /* Images.xcassets */; };
 		DF1AFA331A88BF7500525396 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF1AFA321A88BF7500525396 /* MenuViewController.m */; };
 		DF1AFA361A88C7B700525396 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF1AFA341A88C7B700525396 /* Main.storyboard */; };
+		DFA06E351A89056100930A6D /* UIImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = DFA06E341A89056100930A6D /* UIImageEffects.m */; };
 		F6345C1A85214ED29D386040 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FC37A8FD8774676BFD8CC46 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +50,12 @@
 		DF1AFA311A88BF7500525396 /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
 		DF1AFA321A88BF7500525396 /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
 		DF1AFA351A88C7B700525396 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		DFA06E2B1A89029E00930A6D /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		DFA06E2D1A89050F00930A6D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		DFA06E2F1A89051800930A6D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		DFA06E311A89051E00930A6D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		DFA06E331A89056100930A6D /* UIImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageEffects.h; sourceTree = "<group>"; };
+		DFA06E341A89056100930A6D /* UIImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageEffects.m; sourceTree = "<group>"; };
 		EC3AB6CE12D28EDD939F851D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -74,6 +81,10 @@
 		A1026162C294403ABCF71845 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DFA06E311A89051E00930A6D /* Foundation.framework */,
+				DFA06E2F1A89051800930A6D /* UIKit.framework */,
+				DFA06E2D1A89050F00930A6D /* CoreGraphics.framework */,
+				DFA06E2B1A89029E00930A6D /* Accelerate.framework */,
 				8FC37A8FD8774676BFD8CC46 /* libPods.a */,
 			);
 			name = Frameworks;
@@ -130,6 +141,8 @@
 		CA2B0C9B19D6FAB9009D4C0D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				DFA06E331A89056100930A6D /* UIImageEffects.h */,
+				DFA06E341A89056100930A6D /* UIImageEffects.m */,
 				CA2B0C9C19D6FAB9009D4C0D /* Info.plist */,
 				CA2B0C9D19D6FAB9009D4C0D /* main.m */,
 			);
@@ -291,6 +304,7 @@
 			files = (
 				CAF90FDA1A7C0A5D0038B4F9 /* RingSet.m in Sources */,
 				CA2B0CA419D6FAB9009D4C0D /* RingsViewController.m in Sources */,
+				DFA06E351A89056100930A6D /* UIImageEffects.m in Sources */,
 				CA2B0CA119D6FAB9009D4C0D /* AppDelegate.m in Sources */,
 				CA2B0C9E19D6FAB9009D4C0D /* main.m in Sources */,
 				DF1AFA331A88BF7500525396 /* MenuViewController.m in Sources */,

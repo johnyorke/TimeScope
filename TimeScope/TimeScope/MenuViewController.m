@@ -7,10 +7,9 @@
 //
 
 #import "MenuViewController.h"
+#import "UIImageEffects.h"
 
 @interface MenuViewController ()
-
-@property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
 
 @end
 
@@ -19,14 +18,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
     
     if (self.backgroundImage) {
-        self.backgroundImageView.image = self.backgroundImage;
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.view.frame];
+        imageView.image = [UIImageEffects imageByApplyingBlurToImage:self.backgroundImage
+                                                          withRadius:30
+                                                           tintColor:nil
+                                               saturationDeltaFactor:2
+                                                           maskImage:nil];
+        [self.view insertSubview:imageView atIndex:0];
     }
 }
 
@@ -46,6 +46,11 @@
 - (IBAction)closeButtonTouchUpInside:(id)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
 }
 
 @end

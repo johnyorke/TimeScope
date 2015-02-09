@@ -233,4 +233,9 @@ static const NSInteger kNumberOfMinutesInADay = 60*24;
     menu.backgroundImage = image;
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 @end
