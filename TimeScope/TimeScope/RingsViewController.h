@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <iCarousel/iCarousel.h>
 
-@interface ViewController : UIViewController <iCarouselDelegate>
+@interface RingsViewController : UIViewController <iCarouselDelegate>
 
 
 @end

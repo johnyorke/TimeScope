@@ -6,13 +6,14 @@
 //  Copyright (c) 2014 Josh Worth / John Yorke. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "RingsViewController.h"
 #import "RingSet.h"
+#import "MenuViewController.h"
 
 static const NSInteger kNumberOfFramesBetweenRings = 10;
 static const NSInteger kNumberOfMinutesInADay = 60*24;
 
-@interface ViewController ()
+@interface RingsViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *meterRing;
 @property (weak, nonatomic) IBOutlet UIView *meterRingHandle;
@@ -25,7 +26,7 @@ static const NSInteger kNumberOfMinutesInADay = 60*24;
 
 @end
 
-@implementation ViewController
+@implementation RingsViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -210,6 +211,26 @@ static const NSInteger kNumberOfMinutesInADay = 60*24;
     NSInteger currentIndex = (kNumberOfFramesBetweenRings * ((hours * 60) + minutes) / kNumberOfMinutesInADay);
     
     return currentIndex;
+}
+
+-(UIImage *)convertViewToImage
+{
+    UIGraphicsBeginImageContext(self.view.bounds.size);
+    [self.view drawViewHierarchyInRect:self.view.bounds afterScreenUpdates:YES];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
+}
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    UIImage *image = [self convertViewToImage];
+    
+    MenuViewController *menu = segue.destinationViewController;
+    
+    menu.backgroundImage = image;
 }
 
 @end
